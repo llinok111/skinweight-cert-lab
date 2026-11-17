@@ -6,7 +6,7 @@ number: on the bundled 4,096-vertex / 64-joint rig it finds **358 defects** (187
 **all 358 → 0** defects, and the bind-pose reconstruction error drops from **76.74** to
 **6.68e-5** (that floor is the 1e-6 JSON rounding of the matrices, not a residual defect).
 Baseline: the dense O(V·J) skinning scan in [`baseline/naive.mjs`](baseline/naive.mjs) —
-sparse replay is **2.87×** faster at the median (0.586 ms vs 1.682 ms) and agrees with it to
+sparse replay is **3.20×** faster at the median (0.501 ms vs 1.606 ms) and agrees with it to
 **2.84e-14**.
 
 Upstream: none
@@ -37,10 +37,10 @@ pinned CDN importmap and consumes the same `src/core.mjs` the bench uses.
 
 | case | iters | median | p95 | cold |
 | --- | --- | --- | --- | --- |
-| audit-big | 20 | 0.242 ms | 0.494 ms | 7.31 ms |
-| repair-big | 10 | 4.035 ms | 7.861 ms | 10.95 ms |
-| replay-sparse-pose0 | 20 | 0.586 ms | 0.627 ms | 2.74 ms |
-| replay-dense-pose0 (baseline) | 5 | 1.682 ms | 3.312 ms | 5.26 ms |
+| audit-big | 20 | 0.219 ms | 0.637 ms | 4.53 ms |
+| repair-big | 10 | 3.788 ms | 6.345 ms | 9.46 ms |
+| replay-sparse-pose0 | 20 | 0.501 ms | 0.994 ms | 2.88 ms |
+| replay-dense-pose0 (baseline) | 5 | 1.606 ms | 3.428 ms | 6.22 ms |
 
 - Correctness: `max|sparse − dense| = 2.842e-14` (agrees within 1e-12; the two paths sum in a
   different order, they are not bit-identical).
@@ -70,9 +70,10 @@ the skin.
   `repairWeights`, not audited as a class of their own.
 - `unnormalized` is relative to `|p|` (world radius). At rig scales outside 1e-6…1e6 the threshold
   has not been tested.
-- Timing is wall-clock on a 4-core shared VM: `relSD` is 10–34% because the workloads are
-  sub-5 ms. Only the ratio and the correctness block are stable; `bench/result.json` records the
-  run, the README quotes that run and does not chase it.
+- Timing is wall-clock on a 4-core shared VM: `relSD` is 23–49% because the workloads are
+  sub-5 ms. Only the ratio and the correctness block are stable; the four medians above are copied
+  verbatim from the committed `bench/result.json` (re-running `bench/bench.mjs` rewrites that file
+  and will move them a few percent; the README is not edited to chase a re-run).
 - No headless-browser automation (forbidden in this environment): the page is verified by
   HTTP 200 + importmap presence + node-side recomputation, not by screenshots.
 
