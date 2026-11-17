@@ -37,10 +37,10 @@ pinned CDN importmap and consumes the same `src/core.mjs` the bench uses.
 
 | case | iters | median | p95 | cold |
 | --- | --- | --- | --- | --- |
-| audit-big | 20 | 0.219 ms | 0.637 ms | 4.53 ms |
-| repair-big | 10 | 3.788 ms | 6.345 ms | 9.46 ms |
-| replay-sparse-pose0 | 20 | 0.501 ms | 0.994 ms | 2.88 ms |
-| replay-dense-pose0 (baseline) | 5 | 1.606 ms | 3.428 ms | 6.22 ms |
+| audit-big | 20 | 0.219 ms | 0.637 ms | 4.533 ms |
+| repair-big | 10 | 3.788 ms | 6.345 ms | 9.463 ms |
+| replay-sparse-pose0 | 20 | 0.501 ms | 0.994 ms | 2.875 ms |
+| replay-dense-pose0 (baseline) | 5 | 1.606 ms | 3.428 ms | 6.219 ms |
 
 - Correctness: `max|sparse − dense| = 2.842e-14` (agrees within 1e-12; the two paths sum in a
   different order, they are not bit-identical).
