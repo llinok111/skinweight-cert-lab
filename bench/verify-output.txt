@@ -1,0 +1,29 @@
+== skinweight-cert-lab :: verify ==
+corpus: rigs=8 schema=skinrig/v1
+  big-broken: J=64 V=4096
+  small-broken: J=8 V=256
+  clean-0: J=6 V=96
+  clean-1: J=6 V=96
+  clean-2: J=6 V=96
+  clean-3: J=6 V=96
+  clean-4: J=6 V=96
+  clean-5: J=6 V=96
+  PASS  A1 corpus shape  rigs=8 big.V=4096 big.J=64
+  PASS  A2 broken big has all four defect classes  negativeWeight=55 zeroWeight=76 unnormalized=187 outOfRange=40
+        big total=358 maxSumDeviation=1.0000e+0 maxNegMag=3.0000e-1
+  PASS  A3 broken small has all four defect classes  negativeWeight=4 zeroWeight=5 unnormalized=12 outOfRange=3
+  PASS  A4 clean rigs defect-free  clean total=[0,0,0,0,0,0]
+  PASS  A5 every audit witness re-validates independently  validated=382/382
+  PASS  A6 repair removes every defect on big rig  total 358 -> 0; maxSumDeviation 1.0000e+0 -> 0.0000e+0
+  PASS  A7 bind-pose error collapses after repair  before=7.6737e+1 (worst v=4092) after=6.6839e-5 (floor set by 1e-6 JSON rounding of matrices)
+  PASS  A8 repaired weights normalized to machine precision  maxSumDeviation=0.0000e+0
+        repair: changedVertices=2218 droppedInfluences=95 fallbackVertices=76
+  PASS  A9 repair removes every defect on small rig + clean rigs are no-op  small total -> 0; clean equivalent=[true,true,true,true,true,true]
+  PASS  A10 zero-weight vertices collapse to origin before repair, none after  collapsed before=76 after=0; vertices moved by repair=282
+  PASS  A11 sparse core replay matches the dense O(V*J) baseline within 1e-12 (accumulation order differs)  max|sparse-dense|=2.8422e-14
+  PASS  A12 rig fingerprint is deterministic  hash=d788b6d1 twice=d788b6d1
+  PASS  A13 defect verdicts are scale-invariant (1e-3 .. 1e6)  0.001:358/0 1:358/0 1000:358/0 1000000:358/0
+  PASS  A14 empty rig returns a structured zero result, no throw  total=0
+  PASS  A15 small rig bind error also collapses  before=7.0178e+0 after=9.0574e-6
+
+15 passed / 0 failed
